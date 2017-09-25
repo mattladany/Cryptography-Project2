@@ -1,4 +1,4 @@
-
+import java.math.BigInteger;
 
 public class CrackingAES {
 
@@ -18,10 +18,10 @@ public class CrackingAES {
         };
 
         StringBuilder right95Bits = new StringBuilder("11");
-        int i = 0;
-        while (i < 91) {
+        int d = 0;
+        while (d < 91) {
             right95Bits.append("0");
-            i++;
+            d++;
         }
 
         right95Bits.append("11");
@@ -38,39 +38,55 @@ public class CrackingAES {
             key.append(shortKey);
             key.append(right95Bits);
 
+
             System.out.println(key.toString());
 
+            long dec = Long.parseLong(key.toString(), 2);
+            String hex = Long.toString(dec, 16);
+
+            System.out.println(hex);
+
+            byte[] bytekey = new BigInteger(key.toString(), 128).toByteArray();
+            for (byte b : bytekey) {
+                System.out.print(b);
+            }
+            System.out.println();
+
+
+
 //            Object decryptRoundKeys = Rijndael_Algorithm.makeKey (Rijndael_Algorithm.DECRYPT_MODE, key); //
-//            int numOfCiphertextBlocks = cipherText.length / 16 - 1; // Each AES block has 16 bytes and we need to exclude the IV
+//            int numOfCiphertextBlocks = ciphertexts.length / 16 - 1; // Each AES block has 16 bytes and we need to exclude the IV
 //            byte[] cleartextBlocks = new byte[numOfCiphertextBlocks * 16];
 //
 //            byte[] receivedIV = new byte[16];
-//            for (int i = 0; i < 16; i++) receivedIV[i] = cipherText[i];
+//            for (int i = 0; i < 16; i++) receivedIV[i] = ciphertexts[i];
 //            byte[] currentDecryptionBlock = new byte[16];
 //
 //            for (int i=0; i < numOfCiphertextBlocks; i++) {
-//                for (int j=0; j < 16; j++) currentDecryptionBlock [j] = cipherText[(i+1)*16 + j]; // Note that the first block is the IV
+//                for (int j=0; j < 16; j++) currentDecryptionBlock [j] = ciphertexts[(i+1)*16 + j]; // Note that the first block is the IV
 //
 //                byte[] thisDecryptedBlock = Rijndael_Algorithm.blockDecrypt2 (currentDecryptionBlock, 0, decryptRoundKeys);
 //
-//                for (int j=0; j < 16; j++) cleartextBlocks[i*16+j] =  (byte) (thisDecryptedBlock[j] ^ cipherText[i*16 + j]);
+//                for (int j=0; j < 16; j++) cleartextBlocks[i*16+j] =  (byte) (thisDecryptedBlock[j] ^ ciphertexts[i*16 + j]);
 //            }
-
-            for (int z = 0; z < ciphertexts.length; z++) {
-                if (z == 0) {
-
-                }
-            }
+//
+//            for (int z = 0; z < ciphertexts.length; z++) {
+//                if (z == 0) {
+//
+//                }
+//            }
 
         }
 
     }
 
-    public byte[] convertStringToByteArray(String s) {
-        byte[] array = new byte[s.length() / 2];
-
-        
-
-        return array;
+    public static byte[] hexStringToByteArray(String s) {
+        int len = s.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i+1), 16));
+        }
+        return data;
     }
 }
