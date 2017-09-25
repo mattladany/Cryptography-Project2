@@ -6,16 +6,24 @@ public class CrackingAES {
         byte[] iv = {(byte) 0x00, (byte) 0xCF, (byte) 0x6C, (byte) 0x49, (byte) 0xA3, (byte) 0xD0,
                 (byte) 0xD9, (byte) 0x30, (byte) 0x66, (byte) 0xE9, (byte) 0x89, (byte) 0xB6,
                 (byte) 0x4F, (byte) 0xD2, (byte) 0x04, (byte) 0x5C};
-        for (byte b : iv) {
-            System.out.print(b);
-        }
-        System.out.println();
 
         String[] ciphertexts = {"B0293836986B1A624B8EC39EAE45EEC1",
                 "483AB36FA32851234A995D4F01CF13AF",
                 "ECAFAB471F24A03C7D921D73131AFC6D",
                 "A841C957BCAF565715FCE5355E1FAA03"
         };
+
+
+        byte[] xxx = new byte[16];
+        for (int f = 0; f < xxx.length; f++) {
+            xxx[f] = (byte) (Integer.parseInt(ciphertexts[0].substring(f*2, (f + 1)*2), 16) & 0xff);
+            System.out.println(ciphertexts[0].substring(f*2, (f + 1)*2));
+        }
+
+        for (byte a : xxx) {
+            System.out.print(a + " ");
+        }
+        System.out.println();
 
         StringBuilder right95Bits = new StringBuilder("11");
         int d = 0;
@@ -38,17 +46,17 @@ public class CrackingAES {
             key.append(shortKey);
             key.append(right95Bits);
 
-
             System.out.println(key.toString());
 
-            long dec = Long.parseLong(key.toString(), 2);
-            String hex = Long.toString(dec, 16);
+            byte[] bytes = new byte[16];
 
-            System.out.println(hex);
+            for (int r = 0; r < bytes.length; r++) {
+                bytes[r] = (byte) (Integer.parseInt(key.toString().substring(r*8, (r + 1)*8), 2) & 0xff);
+                System.out.println(key.toString().substring(r*8, (r+1)*8));
+            }
 
-            byte[] bytekey = new BigInteger(key.toString(), 128).toByteArray();
-            for (byte b : bytekey) {
-                System.out.print(b);
+            for (byte a : bytes) {
+                System.out.print(a + " ");
             }
             System.out.println();
 
