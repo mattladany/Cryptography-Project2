@@ -29,7 +29,7 @@ public class CrackingAES {
                 "C7D921D73131AFC6DA841C957BCAF565715FCE5355E1FAA03";
 
 
-        byte[] cipherText = new byte[70];
+        byte[] cipherText = new byte[80];
         for (int f = 0; f < cipherText.length; f++) {
             cipherText[f] = (byte) (Integer.parseInt(string_ciphertext.substring(f*2, (f + 1)*2), 16) & 0xff);
         }
