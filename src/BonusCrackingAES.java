@@ -2,36 +2,37 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-
-public class CrackingAES {
+public class BonusCrackingAES {
 
     public static void main(String[] args) {
         long startTime = System.nanoTime();
 
-
-        //Ranges to specify which range of values the program should loop through
-        //  Specified in the command line when running on a computer by entering a value 0 through 7
         String[] ranges = {
-                "0 1000000000",
-                "1000000000 2000000000",
-                "2000000000 3000000000",
-                "3000000000 4000000000",
-                "4000000000 5000000000",
-                "5000000000 6000000000",
-                "6000000000 7000000000",
-                "7000000000 " + (long)Math.pow(2, 33),
+                "0 9100000000",
+                "9100000000 18200000000",
+                "18200000000 27300000000",
+                "27300000000 36400000000",
+                "36400000000 45500000000",
+                "45500000000 54600000000",
+                "54600000000 63700000000",
+                "63700000000 72800000000",
+                "72800000000 81900000000",
+                "81900000000 91000000000",
+                "91000000000 101000000000",
+                "101000000000 112000000000",
+                "112000000000 123000000000",
+                "134000000000 134000000000",
+                "134000000000 " + (long)Math.pow(2, 37)
         };
 
-        byte[] iv = {(byte) 0x00, (byte) 0xCF, (byte) 0x6C, (byte) 0x49, (byte) 0xA3, (byte) 0xD0,
-                (byte) 0xD9, (byte) 0x30, (byte) 0x66, (byte) 0xE9, (byte) 0x89, (byte) 0xB6,
-                (byte) 0x4F, (byte) 0xD2, (byte) 0x04, (byte) 0x5C};
+        System.out.println((long)Math.pow(2, 37));
 
+        String string_ciphertext =  "2876200488DDDA80C48D9CACCFFAFECC" +
+                                    "08E6DB070027DC60830AFE2E369C2DF7" +
+                                    "5F96DDEA07C48788F82DCDAD17005B66" +
+                                    "C2E846AFBDE6D4F1998004020A7ABEAE" +
+                                    "7806FF0CCF5316DA13DF7622D19B8876";
 
-        String string_ciphertext =  "00CF6C49A3D0D93066E989B64FD2045C" +
-                                    "B0293836986B1A624B8EC39EAE45EEC1" +
-                                    "483AB36FA32851234A995D4F01CF13AF" +
-                                    "ECAFAB471F24A03C7D921D73131AFC6D" +
-                                    "A841C957BCAF565715FCE5355E1FAA03";
 
         byte[] cipherText = new byte[80];
         for (int f = 0; f < cipherText.length; f++) {
@@ -40,7 +41,7 @@ public class CrackingAES {
 
         StringBuilder right95Bits = new StringBuilder("11");
         int d = 0;
-        while (d < 91) {
+        while (d < 87) {
             right95Bits.append("0");
             d++;
         }
@@ -52,9 +53,8 @@ public class CrackingAES {
                  x <= Long.parseLong(ranges[Integer.parseInt(args[0])].split(" ")[1]); x++) {
 
                 StringBuilder shortKey = new StringBuilder(Long.toBinaryString(x));
-
                 StringBuilder stringKey = new StringBuilder();
-                for (int z = 33; z > shortKey.length(); z--)
+                for (int z = 37; z > shortKey.length(); z--)
                     stringKey.append("0");
 
                 stringKey.append(shortKey);
@@ -91,13 +91,15 @@ public class CrackingAES {
 
                     if (i == numOfCiphertextBlocks - 1) {
                         StringBuilder plaintext = new StringBuilder();
-                        for (int z = 0; z < cleartextBlocks.length; z++) {
-                            plaintext.append(Character.toString((char)cleartextBlocks[z]));
-                        }
+
+                        for (byte b : cleartextBlocks)
+                            plaintext.append(Character.toString((char)b));
+
                         StringBuilder possibleKey = new StringBuilder();
-                        for (int z = 0; z < key.length; z++) {
-                            possibleKey.append(String.format("%02x ", key[z]));
-                        }
+
+                        for (byte b : key)
+                            possibleKey.append(String.format("%02x ", b));
+
                         PrintWriter pw = new PrintWriter(new FileWriter("possible.txt", true));
                         pw.println("Plaintext: " + plaintext.toString());
                         pw.println("Key for above: " + possibleKey.toString() + "\n");

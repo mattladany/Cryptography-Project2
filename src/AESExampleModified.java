@@ -7,19 +7,19 @@ import java.util.*;
  * All rights reserved
  */
 
-public class AESExample {
+public class AESExampleModified {
 
 	public void testAESImplementationInCBC () {
         	try {
-			byte[] inKey = {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
+			byte[] inKey = {(byte) 0x89, (byte) 0xcb, (byte) 0xf7, (byte) 0x77, (byte) 0xe0, (byte) 0x00,
 					(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
-					(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0xFF};
-			byte[] cbcIV = {(byte) 0x98, (byte) 0x76, (byte) 0x54, (byte) 0x32, (byte) 0x10, (byte) 0xFE,
-					(byte) 0xDC, (byte) 0xBA, (byte) 0x98, (byte) 0x76, (byte) 0x54, (byte) 0x32,
-					(byte) 0x10, (byte) 0xFE, (byte) 0xDC, (byte) 0xBA};
+					(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x03};
+			byte[] cbcIV = {(byte) 0x67, (byte) 0xc7, (byte) 0x20, (byte) 0xb7, (byte) 0x2a, (byte) 0x53,
+					(byte) 0xb4, (byte) 0xbf, (byte) 0x97, (byte) 0x33, (byte) 0x73, (byte) 0x2f,
+					(byte) 0xad, (byte) 0x99, (byte) 0x91, (byte) 0x19};
 
 			// populate the plaintext
-			String textString = "abcdefghijklmnopqrstuvwxyz012345"; // exactly 32 bytes, two blocks of data
+			String textString = "Transfer fifty thousand dollars from my bank account to Jane Doe"; // exactly 32 bytes, two blocks of data
 
 			byte[] inText = textString.getBytes();		    // This will return the ASCII encoding of the characters
 			int numOfBlocks = inText.length / 16; 		// Each AES block has 16 bytes
@@ -100,7 +100,7 @@ public class AESExample {
 
 	public static void main (String[] args) {
 		try {
-			AESExample aes = new AESExample();
+			AESExampleModified aes = new AESExampleModified();
 
 			aes.testAESImplementationInCBC ();
 		} catch (Exception ex) {
